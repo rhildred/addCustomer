@@ -71,15 +71,17 @@ if ($action == 'complete') {
 	$sGuid = base64_encode(uniqid());
 	$sStart = date("Y-m-d h:i:s");
 	$oUsers = json_decode(file_get_contents('../model/users.json'));
+	$sOldSession = $oUsers->$sSocialId->session;
+	unset($oUsers->$sOldSession);
 	$oUsers->$sSocialId->session = $sGuid;
 	$oUsers->$sSocialId->start = $sStart;
-	file_put_contents('../model/users.json', json_encode($oUsers));
-	setcookie('guid', $sGuid);
 	if($oUsers->$sSocialId->badmin){
-		setcookie('badmin', $sGuid);
+		setcookie('guid', $sGuid);
+		$oUsers->$sGuid->socialid = $sSocialId;
 	}else{
-		setcookie('badmin', time() - 3600);
+		setcookie('guid', time() - 3600);
 	}
+	file_put_contents('../model/users.json', json_encode($oUsers));
 	$sDir = $_SERVER['REQUEST_URI'];
 	$sDir = 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/googleauth2login.php.*/', '', $sDir);
 	header("Location: $sDir");
