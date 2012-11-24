@@ -1,5 +1,21 @@
 <!DOCTYPE html>
 <html>
-	<head><title>Rich Rocks</title></head>
-	<body>Rich Rocks</body>
+	<head>
+		<title>Rich Rocks</title>
+	</head>
+	<body>
+		<head>
+			<hgroup>
+				<h1>Rich Rocks!</h1>
+				<h2>no really!</h2>
+			</hgroup>
+		</head>
+		<section>
+			<!--#include virtual='strings.php?test' -->
+			<p>non editable content here</p>
+			<!--#include virtual='strings.php?test2' -->
+		</section>
+	</body>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
+	<script src="./js/strings.js" type="text/javascript"></script>
 </html>
