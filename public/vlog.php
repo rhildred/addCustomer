@@ -4,9 +4,11 @@ $oInlog = json_decode(file_get_contents($oVlog->url));
 if(!isset($oVlog->entries)){
 	$oVlog->entries = new stdClass();
 }
+$bDirty = false;
 foreach ($oInlog->feed->entry as $oEntry) {
 	$sEntry = $oEntry->id->{'$t'};
 	if(!isset($oVlog->entries->$sEntry)){
+		$bDirty = true;
 		$oVlog->entries->$sEntry = new stdClass();
 		$oVlog->entries->$sEntry->title = $oEntry->title->{'$t'}; 
 		$sContent = $oEntry->content->{'$t'};
@@ -17,7 +19,10 @@ foreach ($oInlog->feed->entry as $oEntry) {
 		$oVlog->entries->$sEntry->link = $oEntry->link[0]->href;
 	}
 }
-print_r($oVlog->entries);
-file_put_contents('./js/vlog.json', json_encode($oVlog));
-
+if($bDirty){
+	file_put_contents('./js/vlog.json', json_encode($oVlog));
+}
+foreach ($oVlog->entries as $sKey => $oEntry) {
+	print_r($oEntry->title);	
+}
 ?>
