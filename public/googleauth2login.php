@@ -85,6 +85,18 @@ if ($action == 'complete') {
 	$sDir = $_SERVER['REQUEST_URI'];
 	$sDir = 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/googleauth2login.php.*/', '', $sDir);
 	header("Location: $sDir");
+} elseif ($action == 'logout') {
+	if(array_key_exists('guid', $_COOKIE)){
+		$sGuid = $_COOKIE['guid'];
+		$oUsers = json_decode(file_get_contents('../model/users.json'));
+		setcookie("guid", "", time() - 3600);
+		$sSocialId = $oUsers->$sGuid->socialid;
+		unset($oUsers->$sSocialId->session);
+		unset($oUsers->$sGuid);
+	}
+	$sDir = $_SERVER['REQUEST_URI'];
+	$sDir = 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/googleauth2login.php.*/', '', $sDir);
+	header("Location: $sDir");
 } else {
 	//construct Google auth2 URI
 	$auth_url = AUTHORIZATION_ENDPOINT . "?redirect_uri=" . CALLBACK_URL . "&client_id=" . KEY . "&scope=https://www.googleapis.com/auth/userinfo.profile" . "&response_type=code" . "&max_auth_age=0";

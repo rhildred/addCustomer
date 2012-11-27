@@ -2,7 +2,9 @@
 
 $oStrings = json_decode(file_get_contents('../model/strings.json'));
 $oUsers = json_decode(file_get_contents('../model/users.json'));
-$sGuid = $_COOKIE['guid'];
+if(array_key_exists('guid', $_COOKIE)){
+	$sGuid = $_COOKIE['guid'];
+}
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
 	$sKey = $_SERVER['QUERY_STRING'];
 	$sStart = '<div class="editable"';

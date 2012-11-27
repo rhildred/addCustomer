@@ -10,3 +10,7 @@ article figure{
 article {
 	clear: left;
 }
+
+article figure img{
+	border: none;
+}
