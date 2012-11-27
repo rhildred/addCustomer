@@ -93,6 +93,7 @@ if ($action == 'complete') {
 		$sSocialId = $oUsers->$sGuid->socialid;
 		unset($oUsers->$sSocialId->session);
 		unset($oUsers->$sGuid);
+		file_put_contents('../model/users.json', json_encode($oUsers));
 	}
 	$sDir = $_SERVER['REQUEST_URI'];
 	$sDir = 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/googleauth2login.php.*/', '', $sDir);
