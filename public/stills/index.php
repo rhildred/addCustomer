@@ -22,11 +22,24 @@ function resize_uploaded_file($sIn, $sOut) {
 	unlink($sIn);
 	return $sOutfile;
 }
-
-$sNewName = resize_uploaded_file($_FILES['my_uploaded_file']['tmp_name'], basename($_FILES['my_uploaded_file']['name']));
-$oVlog = json_decode(file_get_contents('../vlog/vlog.json'));
-$sKey = $_POST['videoid'];
-$oVlog->entries->$sKey->image = "url('stills/" . $sNewName . "')"; 
-file_put_contents('../vlog/vlog.json', json_encode($oVlog));
-
+if($_SERVER['REQUEST_METHOD'] == 'GET')
+{
+	header('HTTP/1.0 403 Forbidden');
+	exit;
+}
+$sGuid = FALSE;
+if(array_key_exists('guid', $_COOKIE)){
+	$sGuid = $_COOKIE['guid'];
+	$oUsers = json_decode(file_get_contents('../../model/users.json'));
+	if(!isset($oUsers->$sGuid)){
+		$sGuid = FALSE;
+	}
+}
+if($sGuid){
+	$sNewName = resize_uploaded_file($_FILES['my_uploaded_file']['tmp_name'], basename($_FILES['my_uploaded_file']['name']));
+	$oVlog = json_decode(file_get_contents('../vlog/vlog.json'));
+	$sKey = $_POST['videoid'];
+	$oVlog->entries->$sKey->image = "url('stills/" . $sNewName . "')"; 
+	file_put_contents('../vlog/vlog.json', json_encode($oVlog));
+}
 ?>

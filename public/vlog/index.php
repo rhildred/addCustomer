@@ -1,4 +1,13 @@
 <?php
+$sGuid = FALSE;
+if(array_key_exists('guid', $_COOKIE)){
+	$sGuid = $_COOKIE['guid'];
+	$oUsers = json_decode(file_get_contents('../../model/users.json'));
+	if(!isset($oUsers->$sGuid)){
+		$sGuid = FALSE;
+	}
+}
+
 $oVlog = json_decode(file_get_contents('vlog.json'));
 $oInlog = json_decode(file_get_contents($oVlog->url));
 if(!isset($oVlog->entries)){
@@ -44,7 +53,7 @@ if($bDirty){
 <?php foreach ($oVlog->entries as $sKey => $oEntry) {?>
 <article>
 <h1><?php echo $oEntry -> title; ?></h1>
-<figure class="dropzone">
+<figure<?php if($sGuid){echo ' class="dropzone"';} ?>>
 	<div id="<?php echo $sKey; ?>" style="background-image: <?php echo $oEntry -> image; ?>" >
 		<a href="<?php echo $oEntry -> link; ?>" rel="prettyPhoto" >
 			<img src="images/play.svg" alt="Play Video"/>
@@ -62,7 +71,8 @@ if($bDirty){
 <script type="text/javascript" charset="utf-8">
 	$(document).ready(function() {
 		$("a[rel^='prettyPhoto']").prettyPhoto();
-	}); 
+	});
+	<?php if($sGuid){ ?> 
 	$.event.props.push('dataTransfer');
 	$(".dropzone").bind('dragover', function (e){
     	e.stopPropagation();
@@ -108,5 +118,6 @@ if($bDirty){
 		xhr.send(formData);
 
 	});
+	<?php } ?>
 </script>
 
