@@ -11,6 +11,6 @@
 				<h2>Youtube videos all on the same page</h2>
 			</hgroup>
 		</header>
-		<!--#include virtual="vlog.php" -->
+		<!--#include virtual="vlog/" -->
 	</body>
 </html>

@@ -26,5 +26,5 @@ function resize_uploaded_file($sIn, $sOut) {
 	unlink($sIn);
 }
 
-resize_uploaded_file($_FILES['my_uploaded_file']['tmp_name'], 'uploads/' . basename($_FILES['my_uploaded_file']['name']));
+resize_uploaded_file($_FILES['my_uploaded_file']['tmp_name'], basename($_FILES['my_uploaded_file']['name']));
 ?>

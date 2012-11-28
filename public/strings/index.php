@@ -1,7 +1,7 @@
 <?php
 
-$oStrings = json_decode(file_get_contents('../model/strings.json'));
-$oUsers = json_decode(file_get_contents('../model/users.json'));
+$oStrings = json_decode(file_get_contents('strings.json'));
+$oUsers = json_decode(file_get_contents('../../model/users.json'));
 if(array_key_exists('guid', $_COOKIE)){
 	$sGuid = $_COOKIE['guid'];
 }
@@ -22,7 +22,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 		$oStrings->$sKey->value = $_POST['content'];
 		$oStrings->$sKey->update = date("Y-m-d h:i:s");
 		$oStrings->$sKey->user = $oUsers->$sGuid->socialid;
-		file_put_contents('../model/strings.json', json_encode($oStrings));
+		file_put_contents('strings.json', json_encode($oStrings));
 	}
 }
 

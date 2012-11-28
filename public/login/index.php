@@ -68,36 +68,46 @@ if ($action == 'complete') {
 	//fetch profile of current user
 	$oProfile = json_decode(run_curl($profile_url, 'GET'));
 	$sSocialId = 'google:' . $oProfile -> id;
-	$sGuid = base64_encode(uniqid());
 	$sStart = date("Y-m-d h:i:s");
-	$oUsers = json_decode(file_get_contents('../model/users.json'));
+	$oUsers = json_decode(file_get_contents('../../model/users.json'));
 	$sOldSession = $oUsers->$sSocialId->session;
-	unset($oUsers->$sOldSession);
-	$oUsers->$sSocialId->session = $sGuid;
-	$oUsers->$sSocialId->start = $sStart;
-	if($oUsers->$sSocialId->badmin){
-		setcookie('guid', $sGuid);
-		$oUsers->$sGuid->socialid = $sSocialId;
-	}else{
-		setcookie('guid', time() - 3600);
+	if(isset($oUsers->$sOldSession)){
+		unset($oUsers->$sOldSession);	
 	}
-	file_put_contents('../model/users.json', json_encode($oUsers));
+	if($oUsers->$sSocialId->badmin){
+		$sGuid = base64_encode(uniqid());
+		$oUsers->$sGuid->socialid = $sSocialId;
+		$oUsers->$sSocialId->session = $sGuid;
+		$oUsers->$sSocialId->start = $sStart;
+		setcookie('guid', $sGuid, time()+60*60*24, '/');
+	}else{
+		setcookie('guid', '', time() - 3600, '/');
+	}
+	file_put_contents('../../model/users.json', json_encode($oUsers));
 	$sDir = $_SERVER['REQUEST_URI'];
-	$sDir = 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/googleauth2login.php.*/', '', $sDir);
+	$sDir = 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/login\/.*/', '', $sDir);
 	header("Location: $sDir");
 } elseif ($action == 'logout') {
 	if(array_key_exists('guid', $_COOKIE)){
 		$sGuid = $_COOKIE['guid'];
-		$oUsers = json_decode(file_get_contents('../model/users.json'));
-		setcookie("guid", "", time() - 3600);
+		$oUsers = json_decode(file_get_contents('../../model/users.json'));
 		$sSocialId = $oUsers->$sGuid->socialid;
 		unset($oUsers->$sSocialId->session);
 		unset($oUsers->$sGuid);
-		file_put_contents('../model/users.json', json_encode($oUsers));
+		file_put_contents('../../model/users.json', json_encode($oUsers));
+		setcookie("guid", "", time() - 3600, '/');
 	}
 	$sDir = $_SERVER['REQUEST_URI'];
-	$sDir = 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/googleauth2login.php.*/', '', $sDir);
+	$sDir = 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/login\/.*/', '', $sDir);
 	header("Location: $sDir");
+} elseif ($action == 'logoutlink') {
+	if(array_key_exists('guid', $_COOKIE)){
+		$sGuid = $_COOKIE['guid'];
+		$oUsers = json_decode(file_get_contents('../../model/users.json'));
+		if(isset($oUsers->$sGuid)){
+			echo '<a id="logoutlink" href="./login/?action=logout" >logout</a>';
+		}
+	}
 } else {
 	//construct Google auth2 URI
 	$auth_url = AUTHORIZATION_ENDPOINT . "?redirect_uri=" . CALLBACK_URL . "&client_id=" . KEY . "&scope=https://www.googleapis.com/auth/userinfo.profile" . "&response_type=code" . "&max_auth_age=0";
