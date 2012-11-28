@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Vlog</title>
+		<link rel="stylesheet" href="css/main.css" type="text/css" media="screen" charset="utf-8" />
+	</head>
+	<body>
+		<header>
+			<hgroup>
+				<h1>Vlog</h1>
+				<h2>Youtube videos all on the same page</h2>
+			</hgroup>
+		</header>
+		<!--#include virtual="vlog.php" -->
+	</body>
+</html>

@@ -1,0 +1,16 @@
+body {
+	margin: 0px;
+	padding: 0px;
+}
+
+article figure{
+	float:left;
+}
+
+article {
+	clear: left;
+}
+
+article figure img{
+	border: none;
+}

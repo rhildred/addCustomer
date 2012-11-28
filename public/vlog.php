@@ -44,7 +44,13 @@ if($bDirty){
 <?php foreach ($oVlog->entries as $sKey => $oEntry) {?>
 <article>
 <h1><?php echo $oEntry -> title; ?></h1>
-<div style="background-image: <?php echo $oEntry -> image; ?>" ><a href="<?php echo $oEntry -> link; ?>" rel="prettyPhoto" ><img src="images/play.svg" alt="Play Video"/></a></div>
+<figure>
+	<div style="background-image: <?php echo $oEntry -> image; ?>" >
+		<a href="<?php echo $oEntry -> link; ?>" rel="prettyPhoto" >
+			<img src="images/play.svg" alt="Play Video"/>
+		</a>
+	</div>
+</figure>
 <p><?php echo $oEntry -> description; ?></p>
 </article>
 
