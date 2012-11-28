@@ -1,5 +1,5 @@
 <?php
-$oVlog = json_decode(file_get_contents('../js/vlog.json'));
+$oVlog = json_decode(file_get_contents('vlog.json'));
 $oInlog = json_decode(file_get_contents($oVlog->url));
 if(!isset($oVlog->entries)){
 	$oVlog->entries = new stdClass();
@@ -22,7 +22,7 @@ foreach ($oInlog->feed->entry as $oEntry) {
 	}
 }
 if($bDirty){
-	file_put_contents('../js/vlog.json', json_encode($oVlog));
+	file_put_contents('vlog.json', json_encode($oVlog));
 }
 ?>
 <style>
@@ -45,7 +45,7 @@ if($bDirty){
 <article>
 <h1><?php echo $oEntry -> title; ?></h1>
 <figure class="dropzone">
-	<div style="background-image: <?php echo $oEntry -> image; ?>" >
+	<div id="<?php echo $sKey; ?>" style="background-image: <?php echo $oEntry -> image; ?>" >
 		<a href="<?php echo $oEntry -> link; ?>" rel="prettyPhoto" >
 			<img src="images/play.svg" alt="Play Video"/>
 		</a>
@@ -73,12 +73,20 @@ if($bDirty){
 	$(".dropzone").bind('drop', function (evt){
 		evt.stopPropagation();
 		evt.preventDefault();
+		var oTarget = evt.target;
+		if(oTarget.nodeName == "A"){
+			oTarget = oTarget.parentNode;
+		}
+		else if(oTarget.nodeName == "IMG"){
+			oTarget = oTarget.parentNode.parentNode;
+		}
 
 		var files = evt.dataTransfer.files;
 		// files is a FileList of File objects. List some properties.
 		myFileObject = files[0]
 		// Open Our formData Object
 		var formData = new FormData();
+		formData.append('videoid', oTarget.id);
 
 		// Append our file to the formData object
 		// Notice the first argument "file" and keep it in mind
@@ -88,18 +96,11 @@ if($bDirty){
 		var xhr = new XMLHttpRequest();
 
 		// Open our connection using the POST method
-		xhr.open("POST", 'images/');
-		var oTarget = evt.target;
-		if(oTarget.nodeName == "A"){
-			oTarget = oTarget.parentNode;
-		}
-		else if(oTarget.nodeName == "IMG"){
-			oTarget = oTarget.parentNode.parentNode;
-		}
+		xhr.open("POST", 'stills/');
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState == 4 && xhr.status == 200) {
 				var re= new RegExp('(.jpg)', 'gi');
-				oTarget.style.backgroundImage="url(images/" + myFileObject.name.replace(re, "_160x150.jpg") + ')';
+				oTarget.style.backgroundImage="url(stills/" + myFileObject.name.replace(re, "_160x150.jpg") + ')';
 			}
 		}
 		// Send the file
