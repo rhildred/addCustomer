@@ -36,8 +36,8 @@ if($bDirty){
 ?>
 <style>
 	article div {
-		width: 160px;
-		height: 150px;
+		width: 260px;
+		height: 200px;
 		background-repeat: no-repeat;
 		background-position: center;
 		display: table-cell;
@@ -110,7 +110,7 @@ if($bDirty){
 		xhr.onreadystatechange = function() {
 			if (xhr.readyState == 4 && xhr.status == 200) {
 				var re= new RegExp('(.jpg)', 'gi');
-				oTarget.style.backgroundImage="url(stills/" + myFileObject.name.replace(re, "_160x150.jpg") + ')';
+				oTarget.style.backgroundImage="url(stills/" + myFileObject.name.replace(re, "_260x200.jpg") + ')';
 			}
 		}
 		// Send the file
