@@ -28,8 +28,8 @@ if($_SERVER['REQUEST_METHOD'] == 'GET')
 	exit;
 }
 $sGuid = FALSE;
-if(array_key_exists('guid', $_COOKIE)){
-	$sGuid = $_COOKIE['guid'];
+if(array_key_exists('sguid', $_COOKIE)){
+	$sGuid = $_COOKIE['sguid'];
 	$oUsers = json_decode(file_get_contents('../../model/users.json'));
 	if(!isset($oUsers->$sGuid)){
 		$sGuid = FALSE;

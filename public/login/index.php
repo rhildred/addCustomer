@@ -79,30 +79,30 @@ if ($action == 'complete') {
 		$oUsers->$sGuid->socialid = $sSocialId;
 		$oUsers->$sSocialId->session = $sGuid;
 		$oUsers->$sSocialId->start = $sStart;
-		setcookie('guid', $sGuid, time()+60*60*24, '/');
+		setcookie('sguid', $sGuid, time()+60*60*24, '/');
 	}else{
-		setcookie('guid', '', time() - 3600, '/');
+		setcookie('sguid', '', time() - 3600, '/');
 	}
 	file_put_contents('../../model/users.json', json_encode($oUsers));
 	$sDir = $_SERVER['REQUEST_URI'];
 	$sDir = 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/login\/.*/', '', $sDir);
 	header("Location: $sDir");
 } elseif ($action == 'logout') {
-	if(array_key_exists('guid', $_COOKIE)){
-		$sGuid = $_COOKIE['guid'];
+	if(array_key_exists('sguid', $_COOKIE)){
+		$sGuid = $_COOKIE['sguid'];
 		$oUsers = json_decode(file_get_contents('../../model/users.json'));
 		$sSocialId = $oUsers->$sGuid->socialid;
 		unset($oUsers->$sSocialId->session);
 		unset($oUsers->$sGuid);
 		file_put_contents('../../model/users.json', json_encode($oUsers));
-		setcookie("guid", "", time() - 3600, '/');
+		setcookie("sguid", "", time() - 3600, '/');
 	}
 	$sDir = $_SERVER['REQUEST_URI'];
 	$sDir = 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/login\/.*/', '', $sDir);
 	header("Location: $sDir");
 } elseif ($action == 'logoutlink') {
-	if(array_key_exists('guid', $_COOKIE)){
-		$sGuid = $_COOKIE['guid'];
+	if(array_key_exists('sguid', $_COOKIE)){
+		$sGuid = $_COOKIE['sguid'];
 		$oUsers = json_decode(file_get_contents('../../model/users.json'));
 		if(isset($oUsers->$sGuid)){
 			echo '<a id="logoutlink" href="./login/?action=logout" >logout</a>';
