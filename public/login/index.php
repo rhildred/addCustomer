@@ -69,10 +69,18 @@ if ($action == 'complete') {
 	$oProfile = json_decode(run_curl($profile_url, 'GET'));
 	$sSocialId = 'google:' . $oProfile -> id;
 	$sStart = date("Y-m-d h:i:s");
-	$oUsers = json_decode(file_get_contents('../../model/users.json'));
-	$sOldSession = $oUsers->$sSocialId->session;
-	if(isset($oUsers->$sOldSession)){
-		unset($oUsers->$sOldSession);	
+	if(file_exists('../../model/users.json')){
+		$oUsers = json_decode(file_get_contents('../../model/users.json'));
+		$sOldSession = $oUsers->$sSocialId->session;
+		if(isset($oUsers->$sOldSession)){
+			unset($oUsers->$sOldSession);	
+		}		
+	}else{
+		if(!is_dir('../../model')){
+			mkdir('../../model');
+		}
+		$oUsers = new stdClass();
+		$oUsers->$sSocialId->badmin = 1;
 	}
 	if($oUsers->$sSocialId->badmin){
 		$sGuid = base64_encode(uniqid());
