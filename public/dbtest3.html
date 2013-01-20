@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			img {
+				height: 100px;
+				float: left;
+			}
+		</style>
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+	</head>
+	<body>
+		<div id="names"></div>
+		<script>
+			$.getJSON("db", {
+				action : "save",
+				object : "test",
+				lname  : "Mouse",
+				fname  : "Mickey"
+			}, function(data) {
+					$('<span class="lname"/>').text(data).appendTo("#names");
+			});
+		</script>
+	</body>
+</html>
