@@ -19,14 +19,18 @@ switch ($action) {
 	case 'find':
 		$sObject = $_GET['object'];
 		eval('class ' . $sObject . ' extends ADOdb_Active_Record{}');
-		$sTemplate = new $sObject;
+		$oTemplate = new $sObject;
 		if(array_key_exists('bindvars', $_GET)){
-			$aResults = $sTemplate->find($_GET['where'], split(',', $_GET['bindvars']));
+			$aResults = $oTemplate->find($_GET['where'], preg_split('/,/', $_GET['bindvars']));
 		}else{
-			$aResults = $sTemplate->find('1');
+			$aResults = $oTemplate->find('1');
 		}
 		if(!$aResults){
-			echo json_encode(array(error => $sTemplate->ErrorMsg())) . "\n";
+			$sError = $oTemplate->ErrorMsg();
+			if(empty($sError)){
+				$sError = "No Objects Found";
+			}
+			echo json_encode(array(error => $sError)) . "\n";
 			break;				
 		}
 		if($action == 'find'){
@@ -62,23 +66,23 @@ switch ($action) {
 		}
 		$sObject = $_GET['object'];
 		eval('class ' . $sObject . ' extends ADOdb_Active_Record{}');
-		$sTemplate = new $sObject;
+		$oTemplate = new $sObject;
 		foreach ($_GET as $key => $value) {
-			$sTemplate->$key = $value;
+			$oTemplate->$key = $value;
 		}
 		if(array_key_exists('id', $_GET)){
-			if(!$sTemplate->delete()){
-				echo json_encode(array(error => $sTemplate->ErrorMsg(), "object" => $sTemplate)) . "\n";
+			if(!$oTemplate->delete()){
+				echo json_encode(array(error => $oTemplate->ErrorMsg(), "object" => $oTemplate)) . "\n";
 				break;				
 			}
 		}
 		if($action == 'save'){
-			if(!$sTemplate->save()){
-				echo json_encode(array(error => $sTemplate->ErrorMsg(), "object" => $sTemplate)) . "\n";
+			if(!$oTemplate->save()){
+				echo json_encode(array(error => $oTemplate->ErrorMsg(), "object" => $oTemplate)) . "\n";
 				break;
 			}
 		}
-		echo json_encode($sTemplate)  . "\n";
+		echo json_encode($oTemplate)  . "\n";
 		break;
 	default:
 		if(array_key_exists('object', $_GET)){
@@ -87,24 +91,22 @@ switch ($action) {
 			$sObject = 'test';
 		}
 		eval('class ' . $sObject . ' extends ADOdb_Active_Record{}');
-		$sTemplate = new $sObject;
+		$oTemplate = new $sObject;
 		if(array_key_exists('bindvars', $_GET)){
-			$aResults = $sTemplate->find($_GET['where'], split(',', $_GET['bindvars']));
+			$aResults = $oTemplate->find($_GET['where'], preg_split('/,/', $_GET['bindvars']));
 		}else{
-			$aResults = $sTemplate->find('1');
+			$aResults = $oTemplate->find('1');
 		}
-		if(!$aResults){
-			echo json_encode(array(error => $sTemplate->ErrorMsg())) . "\n";
-			break;				
-		}
-		foreach ($aResults as $oResult) {
-			echo '<div class="' . $sObject . '">';
-			foreach ($oResult as $key => $value) {
-				if(substr($key, 0, 1) != '_' && $key != 'lockMode' && $key != 'foreignName'){
-					echo '<span class="' . $key . '">' . $value . '</span>';
+		if($aResults){
+			foreach ($aResults as $oResult) {
+				echo '<div class="' . $sObject . '">';
+				foreach ($oResult as $key => $value) {
+					if(substr($key, 0, 1) != '_' && $key != 'lockMode' && $key != 'foreignName'){
+						echo '<span class="' . $key . '">' . $value . '</span>';
+					}
 				}
+				echo "</div>\n";
 			}
-			echo "</div>\n";
 		}
 }
 
