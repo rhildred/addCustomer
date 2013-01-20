@@ -1,15 +1,29 @@
 <?php
 $action = array_key_exists('code', $_GET) ? 'complete' : (array_key_exists('action', $_POST) ? $_POST['action'] : '');
 $action = (array_key_exists('action', $_GET) ? $_GET['action'] : $action);
+session_start();
 
 require_once('../../adodb5/adodb.inc.php');
 require_once('../../adodb5/adodb-active-record.inc.php');
-
+if(file_exists('../../model/db.json')){
+	$oConnections = json_decode(file_get_contents('../../model/db.json'));
+}else{
+	$oConnections = new stdClass();
+	$oConnections->devel->host = 'localhost';
+	$oConnections->devel->uname = 'root';
+	$oConnections->devel->passwd = '';
+	$oConnections->devel->dbname = 'test';
+	$oConnections->prod->host = 'localhost';
+	$oConnections->prod->uname = 'changeit';
+	$oConnections->prod->passwd = 'changeit';
+	$oConnections->prod->dbname = 'changeit';
+	file_put_contents('../../model/db.json', json_encode($oConnections));
+}
 $db = NewADOConnection('mysql');
 if($_SERVER['SERVER_PORT'] == 8080){
-	$db->Connect("localhost", "root", "", "test1");
+	$db->Connect($oConnections->devel->host, $oConnections->devel->uname, $oConnections->devel->passwd, $oConnections->devel->dbname);
 }else{
-	$db->Connect('localhost', 'production user', 'production password', "production database name");
+	$db->Connect($oConnections->prod->host, $oConnections->prod->uname, $oConnections->prod->passwd, $oConnections->prod->dbname);
 }
 
 ADOdb_Active_Record::SetDatabaseAdapter($db);
@@ -51,8 +65,8 @@ switch ($action) {
 	case 'save':
 	case 'delete':
 		$sGuid = FALSE;
-		if(array_key_exists('sguid', $_COOKIE)){
-			$sGuid = $_COOKIE['sguid'];
+		if(array_key_exists('sguid', $_SESSION)){
+			$sGuid = $_SESSION['sguid'];
 			if(file_exists('../../model/users.json')){
 				$oUsers = json_decode(file_get_contents('../../model/users.json'));
 				if(!isset($oUsers->$sGuid)){

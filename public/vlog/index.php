@@ -1,7 +1,8 @@
 <?php
+session_start();
 $sGuid = FALSE;
-if(array_key_exists('sguid', $_COOKIE)){
-	$sGuid = $_COOKIE['sguid'];
+if(array_key_exists('sguid', $_SESSION)){
+	$sGuid = $_SESSION['sguid'];
 	$oUsers = json_decode(file_get_contents('../../model/users.json'));
 	if(!isset($oUsers->$sGuid)){
 		$sGuid = FALSE;

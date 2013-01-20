@@ -2,6 +2,7 @@
 $action = array_key_exists('code', $_GET) ? 'complete' : (array_key_exists('action', $_POST) ? $_POST['action'] : '');
 $action = (array_key_exists('action', $_GET) ? $_GET['action'] : $action);
 
+session_start();
 define('KEY', '95842300516.apps.googleusercontent.com');
 define('SECRET', 'JB2DBmIDDKRmNgsbcmwK4yKm');
 
@@ -87,30 +88,33 @@ if ($action == 'complete') {
 		$oUsers->$sGuid->socialid = $sSocialId;
 		$oUsers->$sSocialId->session = $sGuid;
 		$oUsers->$sSocialId->start = $sStart;
-		setcookie('sguid', $sGuid, time()+60*60*24, '/');
+		$_SESSION['sguid'] = $sGuid;
+		//setcookie('sguid', $sGuid, time()+60*60*24, '/');
 	}else{
-		setcookie('sguid', '', time() - 3600, '/');
+		unset($_SESSION['sguid']);
+		//setcookie('sguid', '', time() - 3600, '/');
 	}
 	file_put_contents('../../model/users.json', json_encode($oUsers));
 	$sDir = $_SERVER['REQUEST_URI'];
 	$sDir = 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/login\/.*/', '', $sDir);
 	header("Location: $sDir");
 } elseif ($action == 'logout') {
-	if(array_key_exists('sguid', $_COOKIE)){
-		$sGuid = $_COOKIE['sguid'];
+	if(array_key_exists('sguid', $_SESSION)){
+		$sGuid = $_SESSION['sguid'];
 		$oUsers = json_decode(file_get_contents('../../model/users.json'));
 		$sSocialId = $oUsers->$sGuid->socialid;
 		unset($oUsers->$sSocialId->session);
 		unset($oUsers->$sGuid);
 		file_put_contents('../../model/users.json', json_encode($oUsers));
-		setcookie("sguid", "", time() - 3600, '/');
+		unset($_SESSION['sguid']);
+		//setcookie("sguid", "", time() - 3600, '/');		
 	}
 	$sDir = $_SERVER['REQUEST_URI'];
 	$sDir = 'http://' . $_SERVER['HTTP_HOST'] . preg_replace('/login\/.*/', '', $sDir);
 	header("Location: $sDir");
 } elseif ($action == 'logoutlink') {
-	if(array_key_exists('sguid', $_COOKIE)){
-		$sGuid = $_COOKIE['sguid'];
+	if(array_key_exists('sguid', $_SESSION)){
+		$sGuid = $_SESSION['sguid'];
 		$oUsers = json_decode(file_get_contents('../../model/users.json'));
 		if(isset($oUsers->$sGuid)){
 			echo '<a id="logoutlink" href="./login/?action=logout" >logout</a>';

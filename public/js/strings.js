@@ -12,7 +12,7 @@ $(".save").click(function (e) {
 	var editable = $(e.target).prev();
     var content = editable.html();
         $.ajax({
-            url: './strings.php',
+            url: './strings/',
             type: 'POST',
             data: {
             content: content, 
