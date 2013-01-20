@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			img {
+				height: 100px;
+				float: left;
+			}
+		</style>
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="js/ActiveRecord.js"></script>
+	</head>
+	<body>
+		<div id="names"></div>
+		<script>
+			var oTest = new (ActiveRecord.extend({name: 'test'}));
+			oTest.fname = 'Rob';
+			oTest.lname = 'Hildred';
+			oTest.save(function(){
+				if(this.error){
+					alert('Error = ' + this.error);	
+				}else{
+					alert('New ID = ' + this.id);
+				}
+				
+			});
+		</script>
+	</body>
+</html>

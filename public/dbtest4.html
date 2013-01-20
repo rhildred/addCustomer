@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			img {
+				height: 100px;
+				float: left;
+			}
+		</style>
+		<script src="http://code.jquery.com/jquery-latest.js"></script>
+		<script src="js/ActiveRecord.js"></script>
+	</head>
+	<body>
+		<div id="names"></div>
+		<script>
+			var oTest = new (ActiveRecord.extend({name: 'test'}));
+			oTest.load('', [], function() {
+					$('<span class="lname"/>').text(this.lname).appendTo("#names");
+					$('<span class="fname"/>').text(this.fname).appendTo("#names");
+			});
+		</script>
+	</body>
+</html>
