@@ -1,0 +1,2 @@
+<!DOCTYPE html>
+<html><body><form><button type="submit" formaction="." formmethod="post">test me</button></form></body></html>

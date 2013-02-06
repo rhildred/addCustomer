@@ -1,0 +1,182 @@
+#wrapper #content #specialsContent {
+	position: relative;
+	height: 320px;
+	border: thin none #877F73;
+	padding-top: 25px;
+}
+
+#wrapper #content #specialsContent .swapImage .bigAdvertHeader {
+	color: #3D6606;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-weight: normal;
+	font-size: 42px;
+	display: block;
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	left: 39px;
+	top: 40px;
+	height: 125px;
+	width: 325px;
+	line-height: 42px;
+	z-index: 1000;
+}
+#wrapper #content #specialsContent .swapImage  #rotator1{
+	font-family: Georgia, "Times New Roman", Times, serif;
+	width: 333px;
+	top: 38px;
+	font-size: 30px !important;
+	line-height: 35px;
+}
+#wrapper #content #specialsContent .swapImage  #rotator2{
+	width: 340px;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 28px !important;
+	line-height: 30px;
+	top: 30px;
+}
+#wrapper #content #specialsContent .swapImage  #rotator3{
+	width: 340px;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 35px !important;
+	line-height: 35px;
+	top: 35px;
+}
+#wrapper #content #specialsContent .swapImage  #rotator3 span{
+	font-size: 20px !important;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	line-height: 30px;
+	
+}
+#wrapper #content #specialsContent .swapImage  #rotator4{
+	width: 340px;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 30px !important;
+	line-height: 32px;
+	top: 25px;
+}
+#wrapper #content #specialsContent .swapImage  #rotator5{
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 40px;
+	top: 43px;
+	height: 125px;
+	width: 325px;
+	line-height: 40px;
+}
+#wrapper #content #specialsContent .swapImage  #rotator6{
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 45px;
+	top: 63px;
+	height: 125px;
+	width: 300px;
+	line-height: 50px;
+}
+#wrapper #content #specialsContent .swapImage  #rotator7{
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 38px;
+	top: 47px;
+	height: 125px;
+	width: 270px;
+	line-height: 47px;
+}
+#wrapper #content #specialsContent .swapImage  #rotator8{
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-size: 35px;
+	top: 47px;
+	height: 125px;
+	width: 350px;
+	line-height: 40px;
+}
+#wrapper #content #specialsContent .swapImage .smallAdvertHeader {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: normal;
+	color: #FFF;
+	display: block;
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	left: 52px;
+	top: 247px;
+	width: 276px;
+	height: 43px;
+	line-height: 19px;
+	z-index: 1000;
+}
+
+#wrapper #content #specialsContent .swapImage #rotatersmall{
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 17px;
+	font-weight: normal;
+	top: 235px;
+	width: 270px;
+	
+}
+#wrapper #content #specialsContent .swapImage .bigAdvertHeaderRight {
+	color: #3D6606;
+	font-family: Georgia, "Times New Roman", Times, serif;
+	font-weight: normal;
+	font-size: 60px;
+	display: block;
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	left: 560px;
+	top: 63px;
+	height: 125px;
+	width: 339px;
+	line-height: 60px;
+	z-index: 1000;
+}
+#wrapper #content #specialsContent .swapImage .smallAdvertHeaderRight {
+	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size: 18px;
+	font-weight: normal;
+	color: #FFF;
+	display: block;
+	margin: 0px;
+	padding: 0px;
+	position: absolute;
+	left: 600px;
+	top: 247px;
+	width: 276px;
+	height: 43px;
+	line-height: 19px;
+	z-index: 1000;
+}
+#wrapper #content #specialsContent .swapImage .swapImageOverlay {
+	position: absolute;
+	z-index: 999;
+	height: 318px;
+	width: 918px;
+	left: 0px;
+	top: 0px;
+}
+#wrapper #content #specialsContent .swapImage {
+	position: relative;
+	height: 318px;
+	width: 918px;
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#wrapper #content #specialsContent div:first-child{
+	display:block;
+}
+#wrapper #content #specialsContent .swapImage .leftSwapPic {
+	padding-left: 347px;
+}
+#wrapper #content #specialsContent .swapImage .rightSwapPic {
+	padding-left: 25px;
+}
+#wrapper #content #specialsContent .swapImageLeft1 .swapImageOverlayLeft1 {
+	background-image: url(../carrousel/swapImageOverlayLeft1.png);
+}
+#wrapper #content #specialsContent .swapImageLeft2 .swapImageOverlayLeft2 {
+	background-image: url(../carrousel/swapImageOverlayLeft2.png);
+}
+#wrapper #content #specialsContent .swapImageLeft2 .swapImageOverlayRight1 {
+	background-image: url(../carrousel/swapImageOverlayRight1.png);
+}
